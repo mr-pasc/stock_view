@@ -2,57 +2,53 @@
 {% block content %}
 <tbody>
     {% for item in items %}
-        <tr data-toggle="collapse" data-target="#{{item.symbol}}" class="clickable">
+        <tr data-toggle="collapse" data-target="#{{item.company_info.symbol}}" class="clickable">
             <td>
                 <ul style="list-style: none;">
-                    <li><bold>{{item.symbol}}</bold></li>
-                    <li><small>{{item.company_name}}</small></li>
-                    <li><small><a style="text-decoration: none" href={{item.website}} target="_blank">{{item.website}}</a></small></li>
+                    <li><bold>{{item.company_info.symbol}}</bold></li>
+                    <li><small>{{item.company_info.company_name}}</small></li>
+                    <li><small><a style="text-decoration: none" href={{item.company_info.website}} target="_blank">{{item.company_info.website}}</a></small></li>
                 </ul>
             </td>
-            <td><a>{{item.close}}</a></td>
+    
+    
+            <td><a>{{item.company_chart.close}}</a></td>
             <td>
                 <ul style="list-style: none;">
-                    <li>{{item.change}}</li>
-                    <li><span><small>({{item.change_percentage}}%)</small></span></li>
+                    <li>{{item.company_chart.change}}</li>
+                    <li><span><small>({{item.company_chart.change_percentage}}%)</small></span></li>
                 </ul>
             </td>
+    
             <td>
                 <ul style="list-style: none;">
-                    <li>{{item.sector}}</li>
-                    <li><small>{{item.industry}}</small></li>
+                    <li>{{item.company_info.sector}}</li>
+                    <li><small>{{item.company_info.industry}}</small></li>
                 </ul>
             </td>
-            <td>{{item.exchange}}</td>
+            <td>{{item.company_info.exchange}}</td>
         </tr>
+
         <tr>
             <td style="padding: 0px">
-                <div id="{{item.symbol}}"  class="collapse ml-2">
+                <div id="{{item.company_info.symbol}}"  class="collapse ml-2">
+                    {% for item in item.company_news %}    
                         <div class="card">
                             <div class="card-body">
-                            <h4 class="card-title">News Title</h4>
-                            <p class="card-text">news summary</p>
+                                <h4 class="card-title">{{item.headline}}</h4>
+                                <p class="card-text">{{item.summary}}</p>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                            <h4 class="card-title">Headline: NAR: Apple faces Japan antitrust regulators over Yahoo game platform</h4>
-                            <p class="card-text">Nikkei Asian Review  reports that Apple (NASDAQ: AAPL ) is under antitrust investigation
-                                                 in Japan due to allegedly pressuring Yahoo Japan to pull back its competing game platform.   More news on: Apple Inc., 
-                                                 SoftBank Group, SoftBank Group ADR, Tech stocks news,     
-                                                 Read more …</p>
-                            </div>
-                        </div>
+                    {% endfor %}
                 </div>
             </td>
             <td colspan="3" style="padding: 0px">
-                <div id="{{item.symbol}}"  class="collapse ml-2">
+                <div id="{{item.company_info.symbol}}"  class="collapse ml-2">
                     <h1>Graph</h1>
+                    <small>feature to be implemented shortly</small>
                 </div>
             </td>
         </tr>
-        
-        
     {% endfor %}
 </tbody>
     
