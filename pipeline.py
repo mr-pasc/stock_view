@@ -6,13 +6,23 @@ import requests
 import json
 import random
 
-
-def get_symbols_list():
-    url = 'https://api.iextrading.com/1.0/ref-data/symbols'
+#takes an argument end_url passed in by the function that calls it and returns a json object
+def api_call(url_end):
+    url = 'https://api.iextrading.com/1.0/{url_end}'.format(url_end=url_end)
     r = requests.get(url)
     data = r.json()
     json_data_parsed = json.dumps(data, indent=2)
     json_data = json.loads(json_data_parsed)
+    return(json_data)
+
+def get_symbols_list():
+    url_end = 'ref-data/symbols'
+    json_data = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/ref-data/symbols'
+    #r = requests.get(url)
+    #data = r.json()
+    #json_data_parsed = json.dumps(data, indent=2)
+    #json_data = json.loads(json_data_parsed)
 
     #generating the random stock symbols
     aux = json_data
@@ -27,10 +37,13 @@ def get_symbols_list():
     #returns ['AAPL', 'ASRE', 'ERC', 'GTSS', 'TDSF', 'SBERF']
 
 def company_info(symbol):
-    url = 'https://ws-api.iextrading.com/1.0/stock/{symbol}/company'.format(symbol=symbol)
-    r = requests.get(url)
-    company_info = json.dumps(r.json())
-    json_object = json.loads(company_info)
+    url_end = 'stock/{symbol}/company'.format(symbol=symbol)
+    json_object = api_call(url_end)
+    #url = 'https://ws-api.iextrading.com/1.0/stock/{symbol}/company'.format(symbol=symbol)
+    #r = requests.get(url)
+    #company_info = json.dumps(r.json())
+    #json_object = json.loads(company_info)
+    
     item = {
             'symbol': json_object['symbol'],
             'company_name': json_object['companyName'],
@@ -57,10 +70,12 @@ def company_info(symbol):
 
 
 def company_chart(symbol):
-    url = 'https://api.iextrading.com/1.0/stock/{symbol}/chart'.format(symbol=symbol)
-    r = requests.get(url)
-    company_chart = json.dumps(r.json())
-    json_object_chart = json.loads(company_chart)
+    url_end = 'stock/{symbol}/chart'.format(symbol=symbol)
+    json_object_chart = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/stock/{symbol}/chart'.format(symbol=symbol)
+    #r = requests.get(url)
+    #company_chart = json.dumps(r.json())
+    #json_object_chart = json.loads(company_chart)
     item = {
         'close': json_object_chart[-1]['close'],
         'change': json_object_chart[-1]['change'],
@@ -77,10 +92,12 @@ def company_chart(symbol):
 
 
 def company_news(symbol):
-    url = 'https://api.iextrading.com/1.0/stock/{symbol}/news/last/3'.format(symbol=symbol)
-    r = requests.get(url)
-    company_news = json.dumps(r.json())
-    json_object_news = json.loads(company_news)
+    url_end = 'stock/{symbol}/news/last/3'.format(symbol=symbol)
+    json_object_news = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/stock/{symbol}/news/last/3'.format(symbol=symbol)
+    #r = requests.get(url)
+    #company_news = json.dumps(r.json())
+    #json_object_news = json.loads(company_news)
     news_list = []
     for d in json_object_news:
         item = {
@@ -149,11 +166,13 @@ def stock_object_list():
 
 #this function returns the top 5 gainers
 def get_top_gainsers():
-    url = 'https://api.iextrading.com/1.0/stock/market/list/gainers'
-    r = requests.get(url)
-    data = r.json()
-    json_data_parsed = json.dumps(data, indent=2)
-    json_data = json.loads(json_data_parsed)
+    url_end = 'stock/market/list/gainers'
+    json_data = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/stock/market/list/gainers'
+    #r = requests.get(url)
+    #data = r.json()
+    #json_data_parsed = json.dumps(data, indent=2)
+    #json_data = json.loads(json_data_parsed)
     top_gainers_list = []
     for items in json_data[0:5]:
         items = {
@@ -170,11 +189,13 @@ def get_top_gainsers():
 
 #this function will return the top 5 losers
 def get_top_losers():
-    url = 'https://api.iextrading.com/1.0/stock/market/list/losers'
-    r = requests.get(url)
-    data = r.json()
-    json_data_parsed = json.dumps(data, indent=2)
-    json_data = json.loads(json_data_parsed)
+    url_end = 'stock/market/list/losers'
+    json_data = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/stock/market/list/losers'
+    #r = requests.get(url)
+    #data = r.json()
+    #json_data_parsed = json.dumps(data, indent=2)
+    #json_data = json.loads(json_data_parsed)
     top_losers_list = []
     for items in json_data[0:5]:
         items = {
@@ -190,11 +211,13 @@ def get_top_losers():
     return(top_losers_list)
 
 def get_most_active():
-    url = 'https://api.iextrading.com/1.0/stock/market/list/mostactive'
-    r = requests.get(url)
-    data = r.json()
-    json_data_parsed = json.dumps(data, indent=2)
-    json_data = json.loads(json_data_parsed)
+    url_end = 'stock/market/list/mostactive'
+    json_data = api_call(url_end)
+    #url = 'https://api.iextrading.com/1.0/stock/market/list/mostactive'
+    #r = requests.get(url)
+    #data = r.json()
+    #json_data_parsed = json.dumps(data, indent=2)
+    #json_data = json.loads(json_data_parsed)
     mostactive_list = []
     for items in json_data[0:5]:
         items = {
